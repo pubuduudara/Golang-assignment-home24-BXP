@@ -7,6 +7,7 @@ import (
 
 // format and scheme/host check
 func IsValidURL(raw string) bool {
+	//TODO: improve this method to check for valid URL formats
 	parsed, err := url.ParseRequestURI(raw)
 	if err != nil {
 		return false
