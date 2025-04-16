@@ -52,7 +52,9 @@ button:disabled {
 }
 
 .result {
-  margin-top: 16px;
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #222;
 }
 
 ul {

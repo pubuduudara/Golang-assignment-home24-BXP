@@ -19,7 +19,7 @@ function App() {
       const data = await analyzePage(url);
       setResult(data);
     } catch (err: any) {
-      setError(err?.response?.data || "Failed to analyze the page");
+      setError(err.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }

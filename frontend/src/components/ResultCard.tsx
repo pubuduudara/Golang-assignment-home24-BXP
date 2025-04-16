@@ -11,21 +11,20 @@ export const ResultCard = ({ result }: { result: AnalysisResult }) => (
     <div>
       <strong>Headings:</strong>
       <ul>
-        {Object.entries(result.headings).map(([h, count]) => (
-          <li key={h}>
-            {h.toUpperCase()}: {count}
+        {Object.entries(result.headings).map(([tag, count]) => (
+          <li key={tag}>
+            {tag.toUpperCase()}: {count}
           </li>
         ))}
       </ul>
     </div>
     <div>
-      <strong>Internal Links:</strong> {result.internalLinks}
-    </div>
-    <div>
-      <strong>External Links:</strong> {result.externalLinks}
-    </div>
-    <div>
-      <strong>Inaccessible Links:</strong> {result.inaccessibleLinks}
+      <strong>Links:</strong>
+      <ul>
+        <li>Internal: {result.links.internal}</li>
+        <li>External: {result.links.external}</li>
+        <li>Inaccessible: {result.links.inaccessible}</li>
+      </ul>
     </div>
     <div>
       <strong>Contains Login Form:</strong> {result.hasLoginForm ? "Yes" : "No"}
