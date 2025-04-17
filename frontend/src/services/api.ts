@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AnalysisResult, ApiResponse } from "../types/analysis";
 
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 export const analyzePage = async (url: string): Promise<AnalysisResult> => {
   const res = await axios.get<ApiResponse>(`${BASE_URL}/analyze`, {
