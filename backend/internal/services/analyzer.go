@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -14,7 +15,8 @@ import (
 
 // RequestError is used to handle errors from HTTP requests
 type RequestError struct {
-	StatusCode int
+	StatusCode  int
+	Description string
 }
 
 // limits the number of concurrent HTTP link accessibility checks.
@@ -32,9 +34,11 @@ func AnalyzeURL(targetURL string) (*models.PageAnalysis, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode >= 400 {
-		return nil, &RequestError{StatusCode: resp.StatusCode}
+		return nil, &RequestError{
+			StatusCode:  resp.StatusCode,
+			Description: http.StatusText(resp.StatusCode),
+		}
 	}
-
 	doc, err := html.Parse(resp.Body)
 	if err != nil {
 		return nil, err
@@ -204,5 +208,5 @@ func isLinkAccessible(link string) bool {
 // Error implements the error interface for RequestError.
 // Returns the standard HTTP status text for the given status code.
 func (e *RequestError) Error() string {
-	return http.StatusText(e.StatusCode)
+	return fmt.Sprintf("%d %s", e.StatusCode, e.Description)
 }

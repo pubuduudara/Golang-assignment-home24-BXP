@@ -7,6 +7,7 @@ import (
 	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/models"
 	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/services"
 	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/utils"
+	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/utils/error"
 	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/utils/logger"
 )
 
@@ -25,15 +26,14 @@ func analyzeHandler(res http.ResponseWriter, req *http.Request) {
 
 	result, err := services.AnalyzeURL(queryURL)
 	if err != nil {
-		logger.Error(err)
-		status := http.StatusInternalServerError
 		if e, ok := err.(*services.RequestError); ok {
-			status = e.StatusCode
+			error.RespondWithError(res, e.StatusCode, e.Error())
+			return
 		}
-		writeError(res, err.Error(), status)
+		// for other unexpected errors, return internal server error
+		error.RespondWithError(res, http.StatusInternalServerError, "Internal Server Error: "+err.Error())
 		return
 	}
-
 	response := models.Response{
 		Status: true,
 		Data:   result,
