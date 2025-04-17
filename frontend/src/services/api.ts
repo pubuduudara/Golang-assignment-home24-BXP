@@ -7,7 +7,7 @@ export const analyzePage = async (url: string): Promise<AnalysisResult> => {
   const res = await axios.get<ApiResponse>(`${BASE_URL}/analyze`, {
     params: { url },
     headers: {
-      "X-API-Key": "supersecretkey123", //TODO: move to env variable
+      "X-API-Key": import.meta.env.VITE_API_KEY,
     },
   });
 
