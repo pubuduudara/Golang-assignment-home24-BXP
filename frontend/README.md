@@ -21,6 +21,7 @@ npm install
 
 ```env
 VITE_API_KEY=your-custom-api-key
+VITE_API_URL=http://localhost:8080
 ```
 
 ---

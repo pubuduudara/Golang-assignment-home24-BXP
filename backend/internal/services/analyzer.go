@@ -20,7 +20,7 @@ type RequestError struct {
 }
 
 // limits the number of concurrent HTTP link accessibility checks.
-// This prevents overwhelming the network or being rate-limited by servers
+// this prevents overwhelming destination web server
 const maxConcurrentChecks = 50
 
 // service function for analyzing URLs
@@ -66,7 +66,7 @@ func AnalyzeURL(targetURL string) (*models.PageAnalysis, error) {
 	}, nil
 }
 
-// detectHTMLVersion returns a simplified version check (HTML5/Unknown)
+// detectHTMLVersion used to get HTML version from the document
 func detectHTMLVersion(doc *html.Node) string {
 	var doctype string
 
