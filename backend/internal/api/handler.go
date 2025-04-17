@@ -6,8 +6,8 @@ import (
 
 	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/models"
 	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/services"
-	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/utils"
 	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/utils/error"
+	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/utils/helpers"
 	"github.com/pubuduudara/Golang-assignment-home24-BXP/backend/internal/utils/logger"
 )
 
@@ -19,7 +19,7 @@ func analyzeHandler(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if !utils.IsValidURL(queryURL) {
+	if !helpers.IsValidURL(queryURL) {
 		writeError(res, "Invalid URL format", http.StatusBadRequest)
 		return
 	}

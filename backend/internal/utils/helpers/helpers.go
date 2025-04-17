@@ -1,13 +1,12 @@
-package utils
+package helpers
 
 import (
 	"net/url"
 	"regexp"
 )
 
-// format and scheme/host check
+// checks if the given string is a valid URL
 func IsValidURL(raw string) bool {
-	//TODO: improve this method to check for valid URL formats
 	parsed, err := url.ParseRequestURI(raw)
 	if err != nil {
 		return false
