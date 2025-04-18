@@ -20,9 +20,6 @@ docker-build:
 docker-run:
 	docker run --rm -p $(PORT):8080 --env-file .env $(DOCKER_IMAGE)
 
-docker-up:
-	docker run -d -p $(PORT):8080 --env-file .env --name $(APP_NAME) $(DOCKER_IMAGE)
-
 docker-stop:
 	docker stop $(APP_NAME)
 
