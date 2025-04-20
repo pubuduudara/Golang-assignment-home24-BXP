@@ -8,9 +8,9 @@
 API_KEY=your-custom-api-key
 ```
 
-#### You can run the application in two ways:
+#### You can run the application in two ways. Once below is completed, backend app is running sucessfully:
 
-1. Using Makefile, without Docker
+1. Using Makefile, without Docker (Recommended)
 
    - Build the application `make build`
    - Run the application `make run`. The server will start on http://localhost:8080
@@ -23,6 +23,7 @@ API_KEY=your-custom-api-key
 #### Developer Testing
 
 - To run all unit and integration tests with coverage, run `make test`
+- You can see the test coverage in the terminal
 
 ## Tools and Technologies
 
@@ -40,32 +41,36 @@ API_KEY=your-custom-api-key
 
 ## Design Considerations
 
-- Project is organized with a clear separation of concerns:
-- `internal/` is used for private application logic to prevent unintended imports from outside the module, following Go best practices.
+- Project is organized with a clear separation of concerns,
+  - `internal/` is used for private application logic to prevent unintended imports from outside the module, following Go best practices.
   - `internal/api` holds HTTP routing and handlers.
   - `internal/services` includes core business logic for analyzing web pages.
   - `internal/middleware` contains reusable middleware (e.g., API key auth).
   - `internal/utils` provides helper functions and centralized logging setup.
 - Go concurrency is used to check the accessibility of links in parallel using goroutines, wait groups, and a semaphore to limit concurrency and avoid overloading external websites.
-- The API is secured using an API key, passed via the `X-API-Key` request header and enforced by middleware.
-- A consistent JSON response format is maintained across the API:
+- Unit and integration tests are implemented to cover business logic, API routes, and middleware behavior, without relying on real external HTTP calls.
+
+## Features
+
+- API security is enforced using an API key, which must be included in the `X-API-Key` request header. This is validated by middleware to ensure secure access. The Frontend includes this key in the header when making requests.
+- The API maintains a consistent JSON response structure, making it easier for frontend developers to handle and parse responses. Also it includes a `status`, which will be a boolean which represents whether the API call was a sucess or a failure:
   ```json
   {
     "status": true | false,
     "data": <result or error message>
   }
   ```
-- Unit and integration tests are implemented to cover business logic, API routes, and middleware behavior, without relying on real external HTTP calls.
 - Environment variables are used for config like the API key, with .env file support for local development.
-- The app is containerized with Docker and all build/run/test tasks are automated using a Makefile.
+- The app is containerized with Docker and all build/run/test tasks are automated using a Makefile
+- Uses Go's log/slog package with a custom wrapper for consistent, leveled logging (Info, Warn, Error).
+- Error responses are automatically logged and returned in a standardized JSON format, including the appropriate HTTP status code and message, helping both frontend and backend developers debug efficiently
 
 ## Possible Improvements
 
+- Add more unit test cases to increase the overall coverage (current coverage is ~75%)
 - Add support for detecting more HTML versions beyond HTML5 by parsing complete DOCTYPE metadata.
 - Introduce Swagger (OpenAPI) documentation for better API usability, testing and documentation.
 - Add rate limiting middleware to prevent abuse of the API.
-- Use a more robust validation for URLs.
 - Introduce structured error types with custom codes for better error classification
-- Expose metrics using Prometheus for performance monitoring and add pprof for profiling
-- Implement request/response logging with trace IDs for better debugging in distributed environments.
+- Implement request/response logging with trace IDs for better debugging
 - Improve the frontend UI
