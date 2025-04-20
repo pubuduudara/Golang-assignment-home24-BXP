@@ -1,3 +1,5 @@
+.PHONY: build run test docker-build docker-run clean 
+
 APP_NAME=web-analyzer
 BUILD_DIR=build
 DOCKER_IMAGE=web-analyzer
@@ -12,7 +14,8 @@ run:
 	go run ./cmd/server
 
 test:
-	go test ./... -cover
+	go test ./... -coverprofile=coverage.out
+	go tool cover -func=coverage.out
 
 docker-build:
 	docker build -t $(DOCKER_IMAGE) .
