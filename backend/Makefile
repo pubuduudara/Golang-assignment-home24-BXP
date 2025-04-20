@@ -9,7 +9,7 @@ build:
 	go build -o $(BUILD_DIR)/$(APP_NAME) ./cmd/server
 
 run:
-	. .env && go run ./cmd/server
+	go run ./cmd/server
 
 test:
 	go test ./... -cover
@@ -18,10 +18,7 @@ docker-build:
 	docker build -t $(DOCKER_IMAGE) .
 
 docker-run:
-	docker run --rm -p $(PORT):8080 --env-file .env $(DOCKER_IMAGE)
-
-docker-stop:
-	docker stop $(APP_NAME)
+	docker run --rm -p $(PORT):8080 $(DOCKER_IMAGE)
 
 clean:
 	rm -rf $(BUILD_DIR)
