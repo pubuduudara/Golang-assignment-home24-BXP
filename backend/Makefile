@@ -9,7 +9,7 @@ build:
 	go build -o $(BUILD_DIR)/$(APP_NAME) ./cmd/server
 
 run:
-	source .env && go run ./cmd/server
+	. .env && go run ./cmd/server
 
 test:
 	go test ./... -cover
